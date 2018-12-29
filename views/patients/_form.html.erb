@@ -1,0 +1,36 @@
+<%= form_for [patient.user, patient] do |f| %>
+  <%= f.hidden_field :user_id %>
+
+  <div>
+    <%= f.label :name, "Name" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :dob, "DOB" %>
+    <%= f.date_field :dob, value: :dob.try(:strftime,"%m/%d/%Y") %>
+  </div>
+
+  <div>
+    <%= f.label :symptoms %>
+    <%= f.collection_check_boxes(:symptom_ids, Symptom.all, :id, :name) do |symptom| %>
+      <p>
+        <%= symptom.label %>
+        <%= symptom.check_box %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :diagnosis %>
+    <%= f.collection_check_boxes(:diagnosis_ids, Diagnosis.all, :id, :name) do |diagnosis| %>
+      <p>
+        <%= diagnosis.label %>
+        <%= diagnosis.check_box %>
+      </p>
+    <% end %>
+  </div>
+
+  <%= f.submit %>
+
+<% end %>

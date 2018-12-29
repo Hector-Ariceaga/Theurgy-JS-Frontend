@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Theurgy</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <nav class="fh5co-nav" role="navigation">
+    <div class="col-xs-2">
+      <div id="fh5co-logo">
+        <a href="<%= root_url %>">Theurgy</a>
+      </div>
+    </div>
+    <div class="right">
+      <ul>
+        <li>
+          <a href="<%= root_url %>"/>Home</a>
+        </li>
+
+        <% if current_user %>
+          <li>
+            <a href="<%= symptoms_url %>"/>Symptoms</a>
+          </li>
+          <li>
+            <a href="<%= diagnoses_url %>"/>Diagnoses</a>
+          </li>
+          <li>
+            <a href="<%= treatments_path %>"/>Treatments</a>
+          </li>
+          <li>
+            <a href="<%= user_path(current_user) %>"/><%= current_user.name %>'s Profile</a>
+          </li>
+          <li>
+            <a href="<%= new_user_patient_path(current_user) %>"/>Add Patient</a>
+          </li>
+          <li>
+            <%= link_to 'Log Out', signout_url, method: 'delete'%>
+          </li>
+        <% else %>
+          <li>
+           <a href="<%= treatments_path %>"/>Treatments</a>
+          </li>
+          <li>
+            <a href="<%= new_user_url %>"/>Sign Up</a>
+          </li>
+          <li>
+            <a href="<%= signin_url %>"/>Log In</a>
+          </li>
+          <li class="btn-cta">
+            <a href="/auth/facebook"/>
+              <span>Log in with Facebook</span>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    
+    <div class="container">
+      <%= yield %>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<div>
+  <% if @patient.errors.any? %>
+    <% @patient.errors.full_messages.each do |message| %>
+      <li><%= message.downcase %></li>
+    <% end %>
+  <% end %>
+</div>
+
+<h1>Add a Patient</h1>
+
+<%= render 'form', patient: @patient %>

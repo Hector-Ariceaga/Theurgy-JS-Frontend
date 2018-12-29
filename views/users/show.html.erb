@@ -1,0 +1,40 @@
+<div class="notice"> <%= flash[:message] %> </div>
+
+<div class="btn-outline center">
+  <span><strong><%= admin_header?(@user) %></strong></span>
+</div>
+<% if @user.email %>
+  <div class="pic">
+    <img src="<%= @user.image %>" id="img">
+  </div>
+  <h1>Welcome back, <%= @user.name %></h1>
+  <h2>Email: <%= @user.email %></h2>
+<% else %>
+  <h1>Welcome back, <%= @user.username %></h1>
+<% end %>
+
+<% if admin_logged_in? %>
+  <div class="center">
+    <%= link_to 'View Highest Risk Patients', high_risk_path %>
+  </div>
+<% end %>
+
+<% if !@user.clinic.blank? %>
+  <h2>Clinic: <%= @user.clinic %></h2>
+<% end %>
+
+<h3><%= @user.name %>'s patients</h3>
+
+<% if @user.patients.none? %>
+  <p><%= @user.name %> does not currently have any patients.</p>
+<% else %>
+  <table>
+    <% @user.patients.each do |patient| %>
+      <tr>
+        <td><%= patient.name %></td>
+        <td><%= link_to 'View Patient Details', [patient.user, patient]%></td>
+        <td><%= link_to 'Delete patient', [patient.user, patient], method: :delete, data:{confirm: "Are you sure you want to delete this patient?"} %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

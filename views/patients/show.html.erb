@@ -1,0 +1,51 @@
+<div class="notice"> <%= flash[:message] %> </div>
+
+<h1><%= @patient.name %></h1>
+
+<h3>Current Symptoms</h3>
+
+<% if @patient.symptoms.any? %>
+  <ol>
+    <% @patient.symptoms.each do |symptom| %>
+      <li><%= symptom.name %></li>
+    <% end %>
+  </ol>
+<% else %>
+    <p>There are currently no symptoms associated with this patient.</p>
+  <% end %>
+
+<h3>Current Diagnoses</h3>
+
+<% if @patient.diagnoses.any? %>
+  <ol>
+    <% @patient.diagnoses.each do |diagnosis| %>
+      <li><%= diagnosis.name %></li>
+    <% end %>
+  </ol>
+<% else %>
+    <p>There are currently no diagnoses associated with this patient.</p>
+<% end %>
+
+<h3>Current Treatments</h3>
+
+<% if @patient.therapies.any? %>
+    <ol>
+      <% @patient.therapies.each do |therapy| %>
+          <li><%= therapy.active? %> | <%= link_to 'Details', treatment_path(therapy.treatment) %> | <%= link_to 'Edit Therapy', edit_therapy_path(therapy) %> | <%= link_to 'Delete', therapy, method: :delete, data: {confirm: "Are you sure you want to delte this therapy?"} %></li>
+      <% end %>
+    </ol>
+<% else %>
+    <p>There are currently no diagnoses associated with this patient.</p>
+<% end %>
+
+<h3>Available Treatments</h3>
+
+<%= form_tag '/therapies', action: "create", method: 'post' do %>
+  <%= hidden_field_tag :patient_id, current_patient.id %>
+  <%= hidden_field_tag :active, true %>
+  <%= collection_select(:therapy, :treatment_id, Treatment.all, :id, :name, {prompt: "Select Treatment"}) %>
+  <%= submit_tag 'Assign Treatment' %>
+<% end %>
+
+<%= link_to 'Edit this patient', edit_user_patient_path(id: @patient, user_id: @patient.user.id) %>
+<%= link_to 'Delete patient', [@patient.user, @patient], method: :delete, data:{confirm: "Are you sure you want to delete this patient?"} %>
