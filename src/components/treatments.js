@@ -10,7 +10,7 @@ class Treatments {
     this.adapter
     .getTreatments()
     .then(treatments => {
-      treatments.forEach(treatment => this.treatments.push(treatment))
+      treatments.forEach(treatment => this.treatments.push(new Treatment(treatment)))
     })
     .then(() => {
       this.render()
@@ -18,7 +18,8 @@ class Treatments {
   }
 
   render() {
-    const treatmentContainer = document.getElementById('treatment-container')
-    treatmentContainer.innerHTML = 'my treatments here'
+    const treatmentsContainer = document.getElementById('treatments-container')
+    const treatmentsString = this.treatments.map(treatment => `<li>${treatment.name}</li>`).join('')
+    treatmentsContainer.innerHTML = treatmentsString
   }
 }
