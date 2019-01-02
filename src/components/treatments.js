@@ -2,10 +2,13 @@ class Treatments {
   constructor() {
     this.treatments = []
     this.adapter = new TheurgyAdapter()
-    // this.bindEventListeners()
+    this.initBindingAndEventListeners()
     this.fetchAndLoadTreatments()
   }
 
+  initBindingAndEventListeners() {
+    this.treatmentsContainer = document.getElementById('treatments-container')
+  }
   fetchAndLoadTreatments() {
     this.adapter
     .getTreatments()
@@ -18,8 +21,6 @@ class Treatments {
   }
 
   render() {
-    const treatmentsContainer = document.getElementById('treatments-container')
-    const treatmentsString = this.treatments.map(treatment => `<li>${treatment.name}</li>`).join('')
-    treatmentsContainer.innerHTML = treatmentsString
+    this.treatmentsContainer.innerHTML = this.treatments.map(treatment => treatment.renderNameLi()).join('')
   }
 }

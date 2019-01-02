@@ -4,4 +4,8 @@ class Treatment {
     this.name = treatmentJSON.name
     this.details = treatmentJSON.details
   }
+
+  renderNameLi() {
+    return `<li>${this.name}</li>`
+  }
 }
